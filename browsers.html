@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>iOS 浏览器对比 - BreakInfo</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="has-mobile-nav has-mobile-bar">
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">B</span>
+                BreakInfo
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="phones.html">手机对比</a></li>
+                <li><a href="beverages.html">饮料对比</a></li>
+                <li><a href="snoring.html">止鼾方案</a></li>
+                <li><a href="browsers.html" class="active">iOS浏览器</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="mock-banner">数据来自 data/info4.json · info4 本地缓存</div>
+
+    <div class="container">
+        <div class="page-header">
+            <a href="index.html?cat=app" class="page-category-badge">📲 应用类</a>
+            <h1>🌐 iOS 浏览器对比</h1>
+            <p>选择至少 2 款 iOS 浏览器，支持全选；对比后可按评分、性价比排序</p>
+        </div>
+
+        <div class="mobile-tabs">
+            <button type="button" class="mobile-tab active" data-tab="select">选择浏览器</button>
+            <button type="button" class="mobile-tab" data-tab="compare">对比结果</button>
+        </div>
+
+        <div class="compare-layout">
+            <aside class="select-panel">
+                <div class="select-panel-header">
+                    <span>选择浏览器</span>
+                    <div class="select-panel-actions">
+                        <button type="button" class="btn-select-all" id="selectAllBtn" title="Ctrl+A 全选">全选</button>
+                        <span class="selected-count" id="selectedCount">0</span>
+                    </div>
+                </div>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="搜索 Safari、Chrome... Ctrl+A全选 Enter对比" autocomplete="off">
+                </div>
+                <div class="select-panel-body">
+                    <ul class="item-list" id="itemList"></ul>
+                </div>
+                <div class="select-panel-footer">
+                    <button type="button" class="btn btn-primary" id="compareBtn" disabled>至少选择 2 款</button>
+                    <button type="button" class="btn btn-outline" id="clearBtn" style="margin-top: 8px; width: 100%;">清空选择</button>
+                </div>
+            </aside>
+
+            <main class="compare-panel">
+                <div class="compare-panel-header">
+                    <h2 id="compareTitle">对比结果</h2>
+                </div>
+                <div class="compare-panel-body" id="compareBody">
+                    <div class="loading"><div class="spinner"></div>加载中...</div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>BreakInfo 产品对比平台 &copy; 2026</p>
+    </footer>
+
+    <div class="mobile-action-bar">
+        <div class="mobile-action-info">已选 <strong id="mobileSelectedCount">0</strong> 款</div>
+        <button type="button" class="btn btn-primary" id="mobileCompareBtn" disabled>至少选 2 款</button>
+        <button type="button" class="btn btn-outline" id="mobileClearBtn">清空</button>
+    </div>
+
+    <nav class="mobile-nav">
+        <div class="mobile-nav-inner">
+            <a href="index.html">
+                <span class="mobile-nav-icon">🏠</span>
+                首页
+            </a>
+            <a href="phones.html">
+                <span class="mobile-nav-icon">📱</span>
+                手机
+            </a>
+            <a href="beverages.html">
+                <span class="mobile-nav-icon">🥤</span>
+                饮料
+            </a>
+            <a href="snoring.html">
+                <span class="mobile-nav-icon">😴</span>
+                止鼾
+            </a>
+            <a href="browsers.html" class="active">
+                <span class="mobile-nav-icon">🌐</span>
+                浏览器
+            </a>
+        </div>
+    </nav>
+
+    <script src="js/json-store.js"></script>
+    <script src="js/info4-store.js"></script>
+    <script src="js/data-loader.js"></script>
+    <script src="js/compare-utils.js"></script>
+    <script src="js/compare-item-crud.js"></script>
+    <script src="js/compare-builtin-boot.js"></script>
+    <script src="js/browsers.js"></script>
+</body>
+</html>

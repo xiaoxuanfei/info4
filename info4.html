@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#2563eb">
+    <title>info4 数据管理 - BreakInfo</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="has-mobile-nav">
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">B</span>
+                BreakInfo
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="settings.html">设置</a></li>
+                <li><a href="info4.html" class="active">info4</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container settings-page info4-page">
+        <div class="page-header">
+            <h1>📦 info4 数据缓存</h1>
+            <p>全部对比项加载到 localStorage（<code>info4</code>），数据文件为 <code>data/info4.json</code></p>
+        </div>
+
+        <section class="settings-card info4-stats-card">
+            <div class="info4-stats" id="info4Stats">加载中...</div>
+            <div class="settings-actions info4-toolbar">
+                <button type="button" class="btn btn-primary" id="reloadFromDataBtn">从 data/ 重新加载</button>
+                <button type="button" class="btn btn-outline" id="exportAllBtn">导出 info4.json</button>
+                <button type="button" class="btn btn-outline" id="exportBackupBtn">备份 info4</button>
+                <button type="button" class="btn btn-outline" id="clearInfo4Btn">清除 info4</button>
+            </div>
+            <p class="settings-status" id="info4Status"></p>
+        </section>
+
+        <div class="info4-layout">
+            <aside class="info4-sidebar settings-card">
+                <div class="info4-sidebar-header">
+                    <h2 class="settings-card-title">对比模块</h2>
+                    <button type="button" class="btn btn-primary btn-sm" id="addModuleBtn">+ 新增</button>
+                </div>
+                <ul class="info4-module-list" id="moduleList"></ul>
+            </aside>
+
+            <main class="info4-main settings-card">
+                <div class="info4-main-header">
+                    <h2 class="settings-card-title" id="moduleTitle">选择模块</h2>
+                    <div class="info4-main-actions" id="moduleActions" hidden>
+                        <button type="button" class="btn btn-outline btn-sm" id="viewModuleBtn">查看</button>
+                        <button type="button" class="btn btn-outline btn-sm" id="editModuleBtn">编辑</button>
+                        <button type="button" class="btn btn-outline btn-sm btn-danger-outline" id="deleteModuleBtn">删除</button>
+                        <button type="button" class="btn btn-primary btn-sm" id="addItemBtn">+ 新增条目</button>
+                    </div>
+                </div>
+                <div class="info4-search-row" id="searchRow" hidden>
+                    <input type="search" id="itemSearch" class="form-input" placeholder="搜索条目（名称、品牌、字段）..." autocomplete="off">
+                    <span class="info4-search-count" id="searchCount"></span>
+                </div>
+                <div class="info4-table-wrap" id="itemsPanel">
+                    <p class="form-hint">从左侧选择模块，可查询、新增、编辑、删除条目</p>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- 条目：查看 -->
+    <div class="modal-overlay" id="viewItemModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-wide" role="dialog">
+            <div class="modal-header">
+                <h2 id="viewItemTitle">查看条目</h2>
+                <button type="button" class="modal-close" data-close="viewItemModal" aria-label="关闭">×</button>
+            </div>
+            <div class="modal-body" id="viewItemBody"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" data-close="viewItemModal">关闭</button>
+                <button type="button" class="btn btn-primary" id="viewToEditBtn">编辑</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 条目：新增/编辑 -->
+    <div class="modal-overlay" id="itemModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-wide" role="dialog">
+            <div class="modal-header">
+                <h2 id="itemModalTitle">编辑条目</h2>
+                <button type="button" class="modal-close" data-close="itemModal" aria-label="关闭">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="info4-form-tabs">
+                    <button type="button" class="info4-tab active" data-tab="form">表单</button>
+                    <button type="button" class="info4-tab" data-tab="json">JSON</button>
+                </div>
+                <div id="itemFormPanel" class="info4-tab-panel"></div>
+                <div id="itemJsonPanel" class="info4-tab-panel" hidden>
+                    <textarea id="itemJsonInput" class="form-input info4-json-input" rows="12" spellcheck="false"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" data-close="itemModal">取消</button>
+                <button type="button" class="btn btn-primary" id="saveItemBtn">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 模块：查看 -->
+    <div class="modal-overlay" id="viewModuleModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-wide" role="dialog">
+            <div class="modal-header">
+                <h2>查看模块</h2>
+                <button type="button" class="modal-close" data-close="viewModuleModal" aria-label="关闭">×</button>
+            </div>
+            <div class="modal-body" id="viewModuleBody"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" data-close="viewModuleModal">关闭</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 模块：新增/编辑 -->
+    <div class="modal-overlay" id="moduleModal" aria-hidden="true">
+        <div class="modal-dialog" role="dialog">
+            <div class="modal-header">
+                <h2 id="moduleModalTitle">新增模块</h2>
+                <button type="button" class="modal-close" data-close="moduleModal" aria-label="关闭">×</button>
+            </div>
+            <div class="modal-body">
+                <label class="form-label" for="moduleTitleInput">模块名称</label>
+                <input type="text" id="moduleTitleInput" class="form-input" placeholder="如：耳机、公路车" autocomplete="off">
+
+                <label class="form-label" for="moduleCategoryInput">所属大类</label>
+                <select id="moduleCategoryInput" class="form-input">
+                    <option value="life">生活类</option>
+                    <option value="app">应用类</option>
+                    <option value="method">方法类</option>
+                </select>
+
+                <label class="form-label" for="moduleItemLabelInput">条目名称（单款叫啥）</label>
+                <input type="text" id="moduleItemLabelInput" class="form-input" placeholder="如：耳机、自行车" autocomplete="off">
+
+                <label class="form-label" for="moduleDescInput">描述</label>
+                <textarea id="moduleDescInput" class="form-input" rows="3" placeholder="模块说明"></textarea>
+
+                <label class="form-label" for="moduleIconInput">图标（emoji）</label>
+                <input type="text" id="moduleIconInput" class="form-input" value="📋" maxlength="4" autocomplete="off">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" data-close="moduleModal">取消</button>
+                <button type="button" class="btn btn-primary" id="saveModuleBtn">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>BreakInfo · info4 本地缓存管理</p>
+    </footer>
+
+    <nav class="mobile-nav">
+        <div class="mobile-nav-inner">
+            <a href="index.html">
+                <span class="mobile-nav-icon">🏠</span>
+                首页
+            </a>
+            <a href="info4.html" class="active">
+                <span class="mobile-nav-icon">📦</span>
+                info4
+            </a>
+            <a href="settings.html">
+                <span class="mobile-nav-icon">⚙️</span>
+                设置
+            </a>
+        </div>
+    </nav>
+
+    <script src="js/json-store.js"></script>
+    <script src="js/info4-store.js"></script>
+    <script src="js/info4-admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>BreakInfo - 产品对比平台</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="has-mobile-nav">
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">B</span>
+                BreakInfo
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">首页</a></li>
+                <li><a href="phones.html">手机对比</a></li>
+                <li><a href="beverages.html">饮料对比</a></li>
+                <li><a href="snoring.html">止鼾方案</a></li>
+                <li><a href="browsers.html">iOS浏览器</a></li>
+                <li><a href="settings.html">设置</a></li>
+                <li><a href="info4.html">info4</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section class="hero">
+            <h1>产品对比，一目了然</h1>
+            <p>浏览生活类、应用类、方法类对比，或自定义自行车、汽车等新对比项</p>
+        </section>
+
+        <section class="catalog-toolbar">
+            <div class="catalog-toolbar-row">
+                <div class="catalog-search">
+                    <input type="text" id="moduleSearch" placeholder="搜索类目或对比项，如：生活类、饮料、自行车、汽车..." autocomplete="off">
+                </div>
+                <button type="button" class="btn btn-primary btn-add-module" id="addModuleBtn">+ 新增对比</button>
+            </div>
+            <div class="category-filters" id="categoryFilters"></div>
+            <p class="catalog-summary" id="resultSummary"></p>
+        </section>
+
+        <section class="home-section" id="allModulesSection">
+            <div class="home-section-header">
+                <h2 id="allModulesTitle">📂 分类对比</h2>
+                <p id="allModulesDesc">每个分类下的对比项</p>
+            </div>
+            <div id="moduleContainer"></div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <p>BreakInfo 产品对比平台 &copy; 2026</p>
+    </footer>
+
+    <nav class="mobile-nav">
+        <div class="mobile-nav-inner">
+            <a href="index.html" class="active">
+                <span class="mobile-nav-icon">🏠</span>
+                首页
+            </a>
+            <a href="phones.html">
+                <span class="mobile-nav-icon">📱</span>
+                手机
+            </a>
+            <a href="beverages.html">
+                <span class="mobile-nav-icon">🥤</span>
+                饮料
+            </a>
+            <a href="snoring.html">
+                <span class="mobile-nav-icon">😴</span>
+                止鼾
+            </a>
+            <a href="browsers.html">
+                <span class="mobile-nav-icon">🌐</span>
+                浏览器
+            </a>
+            <a href="settings.html">
+                <span class="mobile-nav-icon">⚙️</span>
+                设置
+            </a>
+        </div>
+    </nav>
+
+    <div class="modal-overlay" id="addModuleModal" aria-hidden="true">
+        <div class="modal-dialog" role="dialog" aria-labelledby="modalTitle">
+            <div class="modal-header">
+                <h2 id="modalTitle">新增对比项</h2>
+                <button type="button" class="modal-close" id="closeModalBtn" aria-label="关闭">×</button>
+            </div>
+            <div class="modal-body">
+                <label class="form-label" for="moduleNameInput">对比名称</label>
+                <input type="text" id="moduleNameInput" class="form-input"
+                    placeholder="例如：自行车、汽车、公路车变速器..." autocomplete="off">
+                <p class="form-hint">输入名称后将自动识别类型并生成示例数据</p>
+
+                <label class="form-label" for="moduleCategorySelect">所属大类</label>
+                <select id="moduleCategorySelect" class="form-input">
+                    <option value="life">🏠 生活类</option>
+                    <option value="app">📲 应用类</option>
+                    <option value="method">💡 方法类</option>
+                </select>
+
+                <div class="module-preview" id="modulePreview">
+                    <p class="preview-placeholder">输入名称后将自动推断字段与示例数据</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" id="cancelModuleBtn">取消</button>
+                <button type="button" class="btn btn-primary" id="createModuleBtn" disabled>创建并打开</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/categories.js"></script>
+    <script src="js/json-store.js"></script>
+    <script src="js/info4-store.js"></script>
+    <script src="js/custom-modules.js"></script>
+    <script src="js/home.js"></script>
+</body>
+</html>
